@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teras Kaca Cafe - Menu</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Additional styles for menu page */
+        .menu-page {
+            padding-top: 100px;
+            padding-bottom: 100px;
+        }
+        
+        .menu-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .menu-filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 40px;
+        }
+        
+        .filter-btn {
+            padding: 10px 25px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .menu-item {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-heavy);
+        }
+        
+        .menu-item-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .menu-item-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        
+        .menu-item:hover .menu-item-img img {
+            transform: scale(1.05);
+        }
+        
+        .menu-item-content {
+            padding: 25px;
+        }
+        
+        .menu-item-category {
+            display: inline-block;
+            padding: 5px 15px;
+            background: rgba(26, 83, 92, 0.1);
+            color: var(--primary-color);
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+        
+        .menu-item-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 15px 0;
+        }
+        
+        .menu-item-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        .cart-icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .cart-icon-btn:hover {
+            background: var(--primary-color);
+            transform: scale(1.1);
+        }
+        
+        .order-now-btn {
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .order-now-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+        
+        .menu-note {
+            text-align: center;
+            padding: 20px;
+            background: rgba(26, 83, 92, 0.05);
+            border-radius: 15px;
+            margin-top: 40px;
+        }
+        
+        .menu-note i {
+            color: var(--accent-color);
+            margin-right: 10px;
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: var(--primary-color);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-glass-whiskey"></i>
+                    <span>Teras Kaca</span>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="menu.html" class="active">Menu</a></li>
+                    <li><a href="#categories">Kategori</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="user.html" class="btn-order">Pesan Sekarang</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Menu Section -->
+    <section class="menu-page">
+        <div class="container">
+            <div class="menu-header reveal">
+                <h1>Menu Teras Kaca</h1>
+                <p>Jelajahi berbagai pilihan minuman dan makanan spesial kami. Semua disajikan dengan konsep kaca yang unik.</p>
+            </div>
+            
+            <div class="menu-filters reveal" id="categories">
+                <button class="filter-btn active" data-filter="all" onclick="filterMenu('all')">Semua Menu</button>
+                <button class="filter-btn" data-filter="minuman" onclick="filterMenu('minuman')">Minuman</button>
+                <button class="filter-btn" data-filter="makanan" onclick="filterMenu('makanan')">Makanan</button>
+                <button class="filter-btn" data-filter="snack" onclick="filterMenu('snack')">Snack & Dessert</button>
+                <button class="filter-btn" data-filter="spesial" onclick="filterMenu('spesial')">Spesial</button>
+            </div>
+            
+            <div class="menu-items">
+                <!-- Minuman -->
+                <div class="menu-item reveal" data-category="minuman">
+                    <div class="menu-item-img">
+                        <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=764&q=80" alt="Glass Latte Art">
+                    </div>
+                    <div class="menu-item-content">
+                        <span class="menu-item-category">Minuman</span>
+                        <h3>Glass Latte Art</h3>
+                        <p>Espresso dengan susu steamed creamy disajikan dalam gelas kaca dengan latte art khusus.</p>
+                        <div class="menu-item-price">Rp 35.000</div>
+                        <div class="menu-item-actions">
+                            <a href="user.html" class="order-now-btn">Pesan Langsung</a>
+                            <button class="cart-icon-btn" onclick="addToCart('Glass Latte Art', 35000)">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-item reveal" data-category="minuman">
+                    <div class="menu-item-img">
+                        <img src="https://images.unsplash.com/photo-1561047029-3000c68339ca?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Iced Caramel Macchiato">
+                    </div>
+                    <div class="menu-item-content">
+                        <span class="menu-item-category">Minuman</span>
+                        <h3>Iced Caramel Macchiato</h3>
+                        <p>Espresso dengan susu, es, dan sirup karamel dalam gelas kaca tinggi. Sempurna untuk hari panas.</p>
+                        <div class="menu-item-price">Rp 38.000</div>
+                        <div class="menu-item-actions">
+                            <a href="user.html" class="order-now-btn">Pesan Langsung</a>
+                            <button class="cart-icon-btn" onclick="addToCart('Iced Caramel Macchiato', 38000)">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-item reveal" data-category="minuman">
+                    <div class="menu-item-img">
+                        <img src="https://images.unsplash.com/photo-1567337710282-00832b415979?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=765&q=80" alt="Matcha Latte">
+                    </div>
+                    <div class="menu-item-content">
+                        <span class="menu-item-category">Minuman</span>
+                        <h3>Matcha Latte Glass</h3>
+                        <p>Matcha premium dari Jepang dicampur dengan susu steamed, disajikan dalam gelas kaca yang elegan.</p>
+                        <div class="menu-item-price">Rp 32.000</div>
+                        <div class="menu-item-actions">
+                            <a href="user.html" class="order-now-btn">Pesan Langsung</a>
+                            <button class="cart-icon-btn" onclick="addToCart('Matcha Latte Glass', 32000)">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Makanan -->
+                <div class="menu-item reveal" data-category="makanan">
+                    <div class="menu-item-img">
+                        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=699&q=80" alt="Glass View Burger">
+                    </div>
+                    <div class="menu-item-content">
+                        <span class="menu-item-category">Makanan</span>
+                        <h3>Glass View Burger</h3>
+                        <p>Burger premium dengan daging wagyu, keju melted, dan sayuran segar dalam sajian glass plate.</p>
+                        <div class="menu-item-price">Rp 65.000</div>
+                        <div class="menu-item-actions">
+                            <a href="user.html" class="order-now-btn">Pesan Langsung</a>
+                            <button class="cart-icon-btn" onclick="addToCart('Glass View Burger', 65000)">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-item reveal" data-category="makanan">
+                    <div class="menu-item-img">
+                        <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1032&q=80" alt="Pasta Glass Bowl">
+                    </div>
+                    <div class="menu-item-content">
+                        <span class="menu-item-category">Makanan</span>
+                        <h3>Pasta Glass Bowl</h3>
+                        <p>Pasta dengan saus carbonara atau bolognese, disajikan dalam mangkuk kaca dengan taburan keju parmesan.</p>
+                        <div class="menu-item-price">Rp 52.000</div>
+                        <div class="menu-item-actions">
+                            <a href="user.html" class="order-now-btn">Pesan Langsung</a>
+                            <button class="cart-icon-btn" onclick="addToCart('Pasta Glass Bowl', 52000)">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-item reveal" data-category="makanan">
+                    <div class="menu-item-img">
+                        <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Transparent Salad Bowl">
+                    </div>
+                    <div class="menu-item-content">
+                        <span class="menu-item-category">Makanan</span>
+                        <h3>Transparent Salad Bowl</h3>
+                        <p>Salad segar dalam mangkuk kaca dengan dressing khusus dan edible flowers.</p>
+                        <div class="menu-item-price">Rp 42.000</div>
+                        <div class="menu-item-actions">
+                            <a href="user.html" class="order-now-btn">Pesan Langsung</a>
+                            <button class="cart-icon-btn" onclick="addToCart('Transparent Salad Bowl', 42000)">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Snack & Dessert -->
+                <div class="menu-item reveal" data-category="snack">
+                    <div class="menu-item-img">
+                        <img src="https://images.unsplash.com/photo-1559620192-032c64bc86af?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=869&q=80" alt="Glass Tiramisu">
+                    </div>
+                    <div class="menu-item-content">
+                        <span class="menu-item-category">Snack & Dessert</span>
+                        <h3>Glass Tiramisu</h3>
+                        <p>Tiramisu klasik Italia disajikan dalam gelas kaca individu dengan taburan coklat bubuk.</p>
+                        <div class="menu-item-price">Rp 28.000</div>
+                        <div class="menu-item-actions">
+                            <a href="user.html" class="order-now-btn">Pesan Langsung</a>
+                            <button class="cart-icon-btn" onclick="addToCart('Glass Tiramisu', 28000)">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-item reveal" data-category="snack">
+                    <div class="menu-item-img">
+                        <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Glass Pancake">
+                    </div>
+                    <div class="menu-item-content">
+                        <span class="menu-item-category">Snack & Dessert</span>
+                        <h3>Glass Pancake Stack</h3>
+                        <p>Tumpukan pancake lembut dengan maple syrup, buah beri segar, dan whipped cream.</p>
+                        <div class="menu-item-price">Rp 35.000</div>
+                        <div class="menu-item-actions">
+                            <a href="user.html" class="order-now-btn">Pesan Langsung</a>
+                            <button class="cart-icon-btn" onclick="addToCart('Glass Pancake Stack', 35000)">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Spesial -->
+                <div class="menu-item reveal" data-category="spesial">
+                    <div class="menu-item-img">
+                        <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Glass Coffee Tasting Set">
+                    </div>
+                    <div class="menu-item-content">
+                        <span class="menu-item-category">Spesial</span>
+                        <h3>Glass Coffee Tasting Set</h3>
+                        <p>Set untuk mencoba 3 jenis kopi single origin Indonesia dalam gelas kaca kecil dengan panduan tasting.</p>
+                        <div class="menu-item-price">Rp 75.000</div>
+                        <div class="menu-item-actions">
+                            <a href="user.html" class="order-now-btn">Pesan Langsung</a>
+                            <button class="cart-icon-btn" onclick="addToCart('Glass Coffee Tasting Set', 75000)">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="menu-note reveal">
+                <p><i class="fas fa-info-circle"></i> Semua menu kami disajikan dengan konsep kaca yang unik. Untuk pemesanan online, Anda dapat langsung klik "Pesan Langsung" atau tambahkan ke keranjang belanja.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- WhatsApp Order Button -->
+    <a href="https://wa.me/6281234567890?text=Halo%20Teras%20Kaca%20Cafe,%20saya%20ingin%20memesan%20dari%20menu" class="whatsapp-btn" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+        <span>Order via WhatsApp</span>
+    </a>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Teras Kaca Cafe</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Gedung Skyline Tower Lt. 25</p>
+                    <p>Jl. Panorama Indah No. 88, Jakarta</p>
+                    <p><i class="far fa-clock"></i> Buka setiap hari: 08.00 - 23.00 WIB</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Link Cepat</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="menu.html">Menu</a></li>
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="user.html">Pemesanan</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Kontak</h3>
+                    <p><i class="fas fa-phone"></i> (021) 888-1234</p>
+                    <p><i class="fas fa-envelope"></i> hello@teraskaca.com</p>
+                    <p><i class="fab fa-whatsapp"></i> 0812-3456-7890</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Teras Kaca Cafe. Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Menu filter function
+        function filterMenu(category) {
+            const menuItems = document.querySelectorAll('.menu-item');
+            
+            menuItems.forEach(item => {
+                if (category === 'all' || item.dataset.category === category) {
+                    item.style.display = 'block';
+                    setTimeout(() => {
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateY(0)';
+                    }, 10);
+                } else {
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        item.style.display = 'none';
+                    }, 300);
+                }
+            });
+            
+            // Update active filter button
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.filter === category) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+        
+        // Add to cart function
+        function addToCart(itemName, itemPrice) {
+            // Get cart from localStorage or initialize empty array
+            let cart = JSON.parse(localStorage.getItem('teraskaca_cart')) || [];
+            
+            // Check if item already exists in cart
+            const existingItemIndex = cart.findIndex(item => item.name === itemName);
+            
+            if (existingItemIndex > -1) {
+                // Increase quantity if item already exists
+                cart[existingItemIndex].quantity += 1;
+            } else {
+                // Add new item to cart
+                cart.push({
+                    name: itemName,
+                    price: itemPrice,
+                    quantity: 1
+                });
+            }
+            
+            // Save cart to localStorage
+            localStorage.setItem('teraskaca_cart', JSON.stringify(cart));
+            
+            // Show notification
+            showNotification(`${itemName} telah ditambahkan ke keranjang!`);
+        }
+        
+        // Show notification
+        function showNotification(message) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            
+            // Add to body
+            document.body.appendChild(notification);
+            
+            // Show with animation
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
